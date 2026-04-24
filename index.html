@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mia">
+    <link rel="manifest" href="manifest.json">
+    
+    <title>Universo Mia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --card-bg: rgba(22, 22, 29, 0.8);
+            --accent: #8e24aa;
+            --accent-light: #bb86fc;
+            --text: #e0e0e0;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            margin: 0; 
+            padding: 20px;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            animation: stars-move 100s linear infinite;
+        }
+
+        @keyframes stars-move {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        h1 { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3.5rem; 
+            color: var(--accent-light); 
+            margin: 0;
+            text-shadow: 0 0 15px rgba(187, 134, 252, 0.5);
+        }
+
+        .subtitle { 
+            font-size: 0.85rem; 
+            opacity: 0.8; 
+            letter-spacing: 2px; 
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(142, 36, 170, 0.3);
+            border-radius: 24px;
+            padding: 25px 15px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .card i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: var(--accent-light);
+        }
+
+        .card span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .card:active { 
+            transform: scale(0.9); 
+            border-color: var(--accent-light);
+            background: rgba(142, 36, 170, 0.2);
+        }
+
+        #content-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            z-index: 1000;
+            display: none;
+            padding: 40px 25px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .slide-up { animation: slideUp 0.5s forwards; }
+        .slide-down { animation: slideDown 0.5s forwards; }
+
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
+
+        .close-btn { 
+            position: fixed; 
+            top: 20px; 
+            right: 25px; 
+            font-size: 1.8rem; 
+            color: var(--accent-light); 
+            background: var(--glass);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1001;
+        }
+
+        .intro-text {
+            font-style: italic;
+            color: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .main-text { 
+            line-height: 1.8; 
+            font-size: 1.05rem; 
+            opacity: 0.95; 
+            text-align: left;
+            padding-bottom: 100px;
+        }
+
+        .btn-random {
+            background: linear-gradient(45deg, var(--accent), var(--accent-light));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            margin-top: 20px;
+            font-family: 'Poppins';
+            font-weight: 600;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(142, 36, 170, 0.4);
+        }
+
+        .carta-container {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px dashed var(--accent);
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            transition: opacity 0.3s;
+        }
+
+        .respiro-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-respira {
+            width: 150px; height: 150px;
+            border-radius: 50%; 
+            background: radial-gradient(circle, var(--accent-light), var(--accent));
+            box-shadow: 0 0 30px var(--accent);
+            animation: pulse 8s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        @keyframes pulse { 
+            0%, 100% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 20px var(--accent); } 
+            50% { transform: scale(1.6); opacity: 1; box-shadow: 0 0 50px var(--accent-light); } 
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Para Mia</h1>
+        <p class="subtitle">Um pedaço do meu mundo para você</p>
+    </header>
+
+    <div class="grid">
+        <div class="card" onclick="openTab('amor')"><i class="fas fa-heart"></i><span>Por que te amo</span></div>
+        <div class="card" onclick="openTab('orgulho')"><i class="fas fa-star"></i><span>Meu Orgulho</span></div>
+        <div class="card" onclick="openTab('sozinha')"><i class="fas fa-hands-holding-child"></i><span>Se sentir sozinha</span></div>
+        <div class="card" onclick="openTab('ansiedade')"><i class="fas fa-wind"></i><span>Ansiedade</span></div>
+        <div class="card" onclick="openTab('cartas')"><i class="fas fa-envelope-open-heart"></i><span>Cartas</span></div>
+        <div class="card" onclick="openTab('descanso')"><i class="fas fa-moon"></i><span>Precisa relaxar</span></div>
+    </div>
+
+    <div id="content-overlay">
+        <span class="close-btn" onclick="closeTab()"><i class="fas fa-times"></i></span>
+        <div id="display-area"></div>
+    </div>
+
+    <script>
+        const tabs = {
+            amor: {
+                intro: "A lista de motivos é infinita, mas aqui está o que meu peito grita hoje...",
+                body: "Eu te amo pelo seu jeito de consertar meu mundo sem dizer uma palavra. Te amo porque você é meu porto seguro e minha maior aventura ao mesmo tempo. Eu te amo porque você é o motivo de eu levantar todo dia. Eu te amo porque você me fez sentir vivo. Eu te amo porque você me fez sentir coisas novas, coisas diferentes. Eu te amo porque você tem uma alma linda. Eu te amo porque você tem um coração muito bom e bonito. Eu te amo porque você é a única pessoa que me fez sentir diferente. Eu te amo porque você me fez ver as cores. Eu te amo porque você me fez ir além do óbvio. Eu te amo muito, um amor verdadeiro, amor real. Eu te amo."
+            },
+            orgulho: {
+                intro: "Eu olho para você e vejo uma gigante.",
+                body: "Você não tem noção da força que carrega. Cada pequena vitória sua eu comemoro como se fosse minha, porque ver você brilhar é a melhor parte do meu dia. Você é incrível, Camila. Você me enche de orgulho, você é o meu orgulho. Eu tenho orgulho de falar que você é minha, um orgulho imenso de falar sobre você para qualquer pessoa que perguntar quem você é. Mia, você é o meu maior orgulho, não duvide disso!"
+            },
+            sozinha: {
+                intro: "O silêncio pode ser barulhento, mas eu estou aqui.",
+                body: "Se o mundo parecer vazio, lembre que existe um coração batendo no ritmo do seu, em qualquer lugar que eu esteja. Você nunca estará só enquanto eu existir. Se você estiver em alguma situação difícil, ou quiser se abrir, eu sempre estarei ao seu lado. Se você precisar de mim mil vezes, eu estarei mil e uma vezes te ajudando, estando do seu lado, te motivando, sendo seu apoio caso necessário. Se o mundo pesar para você, eu estarei aqui SEMPRE para deixá-lo mais leve!"
+            },
+            ansiedade: {
+                intro: "Fecha os olhos. Apenas foque no círculo e na sua respiração.",
+                body: "<p style='text-align:center'>Inspire quando ele crescer, solte o ar quando ele diminuir.<br>O caos lá fora não pode te tocar aqui dentro.</p><div class='respiro-wrapper'><div class='btn-respira'>Respira...</div></div>"
+            },
+            descanso: {
+                intro: "Pausa. Você já fez demais por hoje.",
+                body: "Deita, solta os ombros e deixa o cansaço ir embora. O mundo não vai acabar se você descansar. Eu cuido de tudo na minha mente por nós dois agora. Descanse, você merece muito esse descanso, você precisa dele. Relaxe e, qualquer coisa, tente dormir. Vai passar, mas por favor, descanse, amor!"
+            },
+            cartas: {
+                intro: "Uma carta aleatória para cada momento...",
+                body: "<div class='carta-container' id='carta-texto'>Clique abaixo para ler uma carta feita com todo meu carinho...</div><button class='btn-random' onclick='gerarCarta()'>Ler nova carta</button>"
+            }
+        };
+
+        const listaCartas = [
+            "Oiii, amor… Eu tava aqui do nd e senti sua falta… tipo, do nada mesmo. E é estranho pq vc sempre tá na minha cabeça, mas mesmo assim eu sinto saudade, como se tivesse faltando alguma coisa aqui. Queria vc mais perto agora. Eu te amo 🤍",
+            "Oiii, meu bem… Eu tava pensando em vc e me deu uma vontade de te lembrar q vc n tá sozinha. Em nenhum momento. Mesmo quando parecer q tá td meio estranho ou difícil, eu tô aqui com vc, pra td. Eu te amo 🤍",
+            "Amor… Só pra vc n esquecer de uma coisa simples, mas importante: tem alguém aqui q pensa em vc td hora e se importa com vc de verdade. Sou eu. Eu te amo 🤍",
+            "Oiii, amor… Eu tava lembrando de vc e comecei a pensar no quanto eu tenho orgulho de vc. Mesmo quando vc acha q n tá indo bem, eu vejo seu esforço, vejo vc tentando, e isso já é incrível. Eu tenho muito orgulho de vc. Eu te amo 🤍",
+            "Oiii, minha vida… É estranho falar isso assim, mas vc n sai da minha cabeça. Tipo, em nenhum momento. Sempre tem alguma coisa q me faz lembrar de vc, e eu gosto disso, mesmo dando saudade. Eu te amo 🤍",
+            "Amor… Se sua cabeça tiver cheia ou se vc tiver meio mal, lembra q vc pode vir em mim. Pra falar, pra desabafar, ou até pra n falar nd direito. Eu vou tá aqui do mesmo jeito. Eu te amo 🤍",
+            "Oiii, meu bem… Eu tava lembrando de alguns momentos nossos e comecei a sorrir sozinho aqui. É engraçado como coisas simples com vc ficam tão marcadas em mim. Isso só mostra o quanto vc é importante pra mim. Eu te amo 🤍",
+            "Amor… Eu gosto de vc de um jeito tranquilo, mas ao mesmo tempo muito forte. N é algo q passa fácil, n é algo leve demais… é algo q fica. E eu quero q continue assim. Eu te amo 🤍",
+            "Oiii, amor… Eu n sei nem oq escrever direito hj, só senti vontade de falar com vc e te lembrar q vc é muito importante pra mim. Muito mais do q eu consigo explicar direito. Eu te amo 🤍",
+            "Amor… Mesmo nos dias difíceis, mesmo quando as coisas n tão perfeitas, eu ainda escolho vc. E vou continuar escolhendo. Eu te amo 🤍",
+            "Oiii, amor… Eu tava aqui quieto e vc veio na minha cabeça de novo, como sempre né. E eu percebi o quanto isso já virou normal pra mim, pensar em vc td hora. Eu gosto disso. Eu te amo 🤍",
+            "Amor… Eu só queria vc aqui agora. Mais nd. Eu te amo 🤍",
+            "Amor… Só queria te lembrar de uma coisa simples: vc é muito importante pra mim. Tipo, muito mesmo. Eu te amo 🤍",
+            "Oiii, meu bem… Eu n sei se falo isso sempre, mas vc me faz muito bem. Eu te amo 🤍",
+            "Oiii, meu bem… Eu tava lembrando do seu jeito e comecei a sorrir aqui sozinho. Vc tem algo diferente, algo q me prende e me acalma ao mesmo tempo. Eu te amo 🤍",
+            "Amor… Mesmo quando vc duvida de vc mesma, eu ainda acredito em vc. Eu te amo 🤍",
+            "Amor… Mesmo quando vc acha q n tá bem, eu ainda vejo o quanto vc é incrível. E eu nunca vou deixar de ver isso. Eu te amo 🤍",
+            "Oiii, amor… Eu senti sua falta agora, sem motivo nenhum. Só veio. E isso acontece mais do q vc imagina. Eu te amo 🤍",
+            "Oiii, minha vida… Eu fico imaginando a gente no futuro e isso me dá uma sensação boa. Eu te amo 🤍",
+            "Amor… Eu gosto de vc de um jeito simples, mas muito verdadeiro. Eu te amo 🤍",
+            "Amor… Se vc tiver mal ou confusa com alguma coisa, lembra q eu tô aqui pra vc. Sempre. Eu te amo 🤍",
+            "Oiii, minha vida… Eu fico pensando em como vc entrou na minha vida e simplesmente ficou. E eu n quero q vc vá. Eu te amo 🤍",
+            "Amor… Eu gosto de vc de um jeito q n é passageiro. É algo q fica, q cresce, q continua. Eu te amo 🤍",
+            "Oiii, meu bem… Eu tava aqui pensando no quanto eu gosto de conversar com vc, no quanto sua presença me faz bem. Eu te amo 🤍",
+            "Amor… Vc n precisa ser perfeita pra mim. Só sendo vc já é mais do q suficiente. Eu te amo 🤍",
+            "Oiii, amor… Eu tava lembrando de uma conversa nossa e percebi o quanto eu gosto até das coisas simples com vc. Eu te amo 🤍",
+            "Amor… Eu tenho orgulho de vc até nas pequenas coisas, até quando vc acha q n fez nd demais. Eu te amo 🤍",
+            "Oiii, meu bem… Eu gosto do seu jeito, da sua forma de pensar, de como vc sente as coisas. Isso me encanta. Eu te amo 🤍",
+            "Amor… Eu n sei explicar direito, mas eu sinto vc como algo muito importante na minha vida. Eu te amo 🤍",
+            "Oiii, amor… Eu tava aqui e pensei em como seria bom ter vc mais perto agora. Só isso já melhorava td. Eu te amo 🤍",
+            "Amor… Mesmo em silêncio, mesmo sem falar nd, vc continua sendo alguém q eu penso e sinto. Eu te amo 🤍",
+            "Oiii, minha vida… Eu gosto da forma como vc existe na minha vida, de um jeito leve mas ao mesmo tempo muito forte. Eu te amo 🤍",
+            "Amor… Se o mundo tiver pesado pra vc, vem em mim. Eu quero ser seu lugar seguro. Eu te amo 🤍",
+            "Oiii, meu bem… Eu fico feliz só de lembrar q eu tenho vc. Isso já muda meu dia. Eu te amo 🤍",
+            "Amor… Eu escolho vc até nos dias q n tão perfeitos. Isso n muda. Eu te amo 🤍",
+            "Oiii, amor… Eu tava aqui e pensei em como vc é especial pra mim, e eu n falo isso da boca pra fora n. Eu te amo 🤍",
+            "Amor… Eu gosto de cuidar de vc, de me preocupar com vc, de estar presente. Isso é importante pra mim. Eu te amo 🤍",
+            "Oiii, meu bem… Eu tava lembrando de vc e senti uma paz boa, como se td ficasse mais leve. Eu te amo 🤍",
+            "Amor… Vc faz parte dos meus pensamentos mais do q qualquer outra coisa. Eu te amo 🤍",
+            "Oiii, amor… Eu só queria te lembrar q tem alguém aqui q nunca esquece de vc. Eu te amo 🤍",
+            "Oiii, meu amor. Eu tava aqui pensando em vc, e senti vontade de te escrever, assim, do nd mesmo, só pq vc veio na minha cabeça e ficou. E eu gosto disso, gosto de como vc simplesmente aparece nos meus pensamentos e muda tudo. Amor, eu queria q vc entendesse uma coisa, mas entendesse mesmo, de verdade: vc n tá sozinha. Em nenhum momento. Nem quando vc acha q tá, nem quando parece q tá tudo pesado demais, nem quando vc sente q ngm tá entendendo. Eu tô aqui. Sempre. E n é aquele “tô aqui” só de falar, n. Eu tô aqui pra ouvir, pra te entender, pra tentar te ajudar em td, até nas coisas mais pequenas q vc acha q n importam. Pq pra mim, se vem de vc, importa. E muito. Se alguma coisa te deixar mal, se sua cabeça começar a te confundir, se vier aquela ansiedade ou qualquer coisa assim, n guarda só pra vc. Pode vir em mim. Pode falar, pode desabafar, pode até n saber explicar direito, eu vou ter paciência pra entender. Eu n vou me cansar disso, n vou te achar exagerada, n vou te evitar por causa disso. Nunca. Muito pelo contrário, eu quero ser o lugar onde vc se sente segura. Onde vc pode ser vc mesma, sem medo, sem precisar esconder nd. Meu bem, vc é muito mais forte do q imagina. Mesmo nos dias q vc acha q n tá sendo. Mesmo quando vc duvida de vc mesma. Eu vejo vc, eu vejo sua força, seu jeito, seu esforço… e eu tenho um orgulho enorme disso. E eu sei q vc vai conseguir chegar onde vc quer. Eu sei mesmo. Pq vc n é o tipo de pessoa q desiste, vc é o tipo de pessoa q tenta, q sente, q se importa. E isso já te faz ser diferente. E eu vou estar do seu lado em td isso. Em cada passo, em cada dificuldade, em cada conquista. Eu vou comemorar com vc, vou te apoiar quando precisar, vou te lembrar do quão incrível vc é quando vc esquecer. Amor, vc é muito importante pra mim. Muito mesmo. Eu n sei explicar de um jeito perfeito, mas eu sinto isso em td. No jeito q eu penso em vc, no jeito q eu me preocupo, no jeito q eu quero te ver bem. Eu só quero q vc fique bem. Que vc se sinta leve. Que vc sinta q tem alguém do seu lado de verdade. E tem. Sou eu. Eu te amo, meu bem. De verdade. 🤍",
+            "Oiii, amor… Eu n sei nem se isso aqui vai fazer sentido, sério… eu só tô escrevendo pq eu n tô conseguindo guardar isso dentro de mim. Minha cabeça tá cheia, meu coração tá apertado e td q vem é vc… sempre vc. Amor, eu tenho medo. Muito medo mesmo. E eu quase nunca falo isso assim, desse jeito, mas eu tenho medo de te perder, medo de vc cansar de mim, medo de eu n ser suficiente, medo de fazer alguma coisa errada e estragar td. E isso fica rodando na minha cabeça sem parar… As vezes eu tento fingir q tá td bem, q eu tô tranquilo, mas n tá. Quando o assunto é vc, eu n consigo ser tranquilo. Pq vc importa demais pra mim, muito mais do q eu sei explicar. Eu penso em vc td hora… literalmente td hora. E n é exagero, é real. Qualquer coisinha me faz lembrar de vc, qualquer momento eu queria dividir com vc, qualquer coisa eu queria q fosse com vc. E isso me assusta um pouco… pq eu nunca senti algo assim desse jeito. Eu fico pensando se vc sente isso tbm, se vc pensa em mim assim, se vc tem esse medo de me perder igual eu tenho de te perder… e eu n sei, e isso me deixa meio perdido. Mas ao mesmo tempo, eu sei oq eu sinto. E oq eu sinto é vc. Amor, vc é o amor da minha vida… e eu n tô falando isso da boca pra fora, n é coisa bonita pra falar, é oq tá aqui dentro mesmo. E é tão forte q chega a doer. Dói de verdade imaginar vc indo embora, imaginar vc deixando de ser “minha”, imaginar a gente se afastando… eu n consigo aceitar isso na minha cabeça. Eu sei q n posso te prender, sei q vc é livre, sei de td isso… mas eu queria tanto q vc escolhesse ficar. Comigo. Todos os dias. Pq eu tô te escolhendo. Mesmo com medo, mesmo inseguro, mesmo achando q as vezes eu n sou bom o suficiente… eu tô aqui, te escolhendo. E eu queria muito ser alguém q te faz bem, alguém q vc olha e pensa “é com ele q eu quero ficar”, alguém q vc confia de verdade, alguém q vc n pensa em perder. Pq eu n quero te perder. De verdade… eu n quero. Desculpa se isso ficou confuso, repetitivo ou sla… eu só fui escrevendo sem pensar muito, só deixando sair. Mas se tem uma coisa q vc precisa saber é isso: Eu te amo. Muito. Muito mesmo. E eu tenho medo de te perder pq vc é a melhor coisa q eu tenho. 🤍",
+        ];
+
+        function openTab(id) {
+            const data = tabs[id];
+            let html = `<div class="intro-text">${data.intro}</div><div class="main-text">${data.body}</div>`;
+            document.getElementById('display-area').innerHTML = html;
+            
+            const overlay = document.getElementById('content-overlay');
+            overlay.classList.remove('slide-down');
+            overlay.classList.add('slide-up');
+            overlay.style.display = 'block';
+            overlay.scrollTop = 0;
+            
+            history.pushState({tabOpen: true}, "");
+        }
+
+        function closeTab() {
+            const overlay = document.getElementById('content-overlay');
+            overlay.classList.remove('slide-up');
+            overlay.classList.add('slide-down');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        }
+
+        window.onpopstate = function() {
+            closeTab();
+        };
+
+        function gerarCarta() {
+            const index = Math.floor(Math.random() * listaCartas.length);
+            const container = document.getElementById('carta-texto');
+            container.style.opacity = 0;
+            setTimeout(() => {
+                container.innerText = listaCartas[index];
+                container.style.opacity = 1;
+            }, 300);
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
+</body>
+</html>
